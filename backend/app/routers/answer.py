@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, Path, Query
+from fastapi import APIRouter, Depends, Path, Query, Body
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -24,11 +24,12 @@ router = APIRouter(prefix=config.BACKEND_PREFIX, dependencies=[Depends(verify_ac
     # responses={},
 )
 async def create(
-    model: AnswerCreate,
+    id: UUID4 = Query(..., description="Id опроса"),
+    model: AnswerCreate = Body(..., description="Тело ответа"),
     db: AsyncSession = Depends(get_session),
     answers_service: AnswerService = Depends(),
 ):
-    return await answers_service.create(db=db, model=model)
+    return await answers_service.create(db=db, guid=id, model=model)
 
 
 @router.get(

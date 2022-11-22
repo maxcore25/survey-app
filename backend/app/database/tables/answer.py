@@ -14,6 +14,6 @@ class Answer(Base):
     survey_guid = Column(UUID(as_uuid=True), ForeignKey("survey.guid"))
     survey = relationship("Survey", back_populates="answers", uselist=False, lazy="joined")
     title = Column(String, nullable=False)
-    voted = Column(Integer, nullable=False)
+    voted = Column(Integer, default=0)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

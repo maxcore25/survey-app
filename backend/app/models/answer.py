@@ -7,7 +7,6 @@ from app.models.utils import optional
 
 class AnswerBase(BaseModel):
     title: str = Field(description="Название ответа")
-    voted: int = Field(None, description="Количество проголосовавших пользователей")
 
 
 class AnswerCreate(AnswerBase):
@@ -16,6 +15,7 @@ class AnswerCreate(AnswerBase):
 
 class AnswerGet(AnswerBase):
     guid: UUID4 = Field(description="Уникальный идентификатор ответа")
+    voted: int = Field(None, description="Количество проголосовавших пользователей")
     created_at: datetime = Field(description="Время создания ответа")
     updated_at: datetime = Field(description="Время последнего обновления ответа")
 

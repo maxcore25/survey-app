@@ -14,7 +14,7 @@ class Survey(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=False)
     question = Column(String, nullable=False)
-    voted = Column(Integer, nullable=False)
+    voted = Column(Integer, default=0)
     points = Column(Integer, nullable=False)
     category = Column(String, nullable=False)
     answers = relationship("Answer", back_populates="survey", uselist=True, lazy="joined")

@@ -7,14 +7,26 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql.expression import cast
 
-from app.database.tables import Survey
+from app.database.tables import Survey, Answer
 from app.models import SurveyCreate, SurveyPatch
 
 
 class SurveyRepository:
     @staticmethod
     async def create(db: AsyncSession, model: SurveyCreate) -> Survey:
-        survey = Survey(**model.dict(exclude_unset=True))
+        survey = Survey(
+            title=model.title,
+            description=model.description,
+            question=model.question,
+            points=model.points,
+            category=model.category,
+            answers=list()
+        )
+        for ans in model.answers:
+            answer_object = Answer(
+                title=ans.title,
+            )
+            survey.answers.append(answer_object)
         db.add(survey)
         await db.commit()
         await db.refresh(survey)
