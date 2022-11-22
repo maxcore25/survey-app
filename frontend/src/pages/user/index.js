@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AppLayout from '../../components/layouts/AppLayout';
+import SurveysLayout from '../../components/layouts/SurveysLayout';
 
 export default function User() {
   const [name, setName] = useState('');
@@ -57,5 +58,9 @@ export default function User() {
     console.log('Component did mount');
   }, []);
 
-  return <AppLayout></AppLayout>;
+  return (
+    <AppLayout>
+      <SurveysLayout />
+    </AppLayout>
+  );
 }
