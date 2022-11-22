@@ -46,7 +46,7 @@ export default function Header({ logo, exit }) {
                 Опросы
               </Button>
             </Link>
-            <Link to='/home' style={{ height: 'fit-content' }}>
+            <Link to='/panel' style={{ height: 'fit-content' }}>
               <Button
                 sx={{
                   textTransform: 'none',
