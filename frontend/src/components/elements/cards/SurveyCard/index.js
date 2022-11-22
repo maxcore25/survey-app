@@ -1,8 +1,8 @@
 import { CardMedia, Paper, Typography } from '@mui/material';
-import { Stack } from 'immutable';
 import React from 'react';
 import AppButton from '../../buttons/AppButton';
 import { styled } from '@mui/material/styles';
+import { Stack } from '@mui/system';
 
 const Theme = styled(Typography)({
   textTransform: 'uppercase',
@@ -39,6 +39,7 @@ export default function SurveyCard() {
       />
       <Stack direction='row'>
         <AppButton>Голосовать</AppButton>
+        <span>+20 баллов</span>
       </Stack>
     </Paper>
   );
