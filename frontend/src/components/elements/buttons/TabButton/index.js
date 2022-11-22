@@ -7,21 +7,21 @@ export default function TabButton({ children, onClick, active, ...props }) {
       variant='outlined'
       onClick={onClick}
       sx={{
-        p: '8px',
-        width: '192px',
-        fontWeight: 600,
+        p: '4px 16px',
+        fontWeight: 500,
         fontSize: '18px',
-        lineHeight: '140%',
+        lineHeight: '22px',
         textTransform: 'none',
         color: active ? 'var(--color-50)' : 'var(--color-900)',
         background: active ? 'var(--color-primary)' : 'transparent',
-        border: '1px solid #2563EB',
+        border: '1px solid var(--color-primary)',
         borderRadius: '16px',
 
         '&:hover': {
+          border: '1px solid var(--color-primary)',
           background: active
-            ? 'var(--color-primary-acc1)'
-            : 'rgba(37, 99, 235, 0.15)',
+            ? 'var(--color-primary-acc2)'
+            : 'var(--color-primary-acc1)',
         },
       }}
       {...props}>
