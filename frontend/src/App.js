@@ -4,6 +4,7 @@ import SignIn from './pages/auth/SingIn';
 import SignUp from './pages/auth/SingUp';
 import Home from './pages/home';
 import ProtectedRoute from './components/elements/auth/ProtectedRoute';
+import Survey from './pages/survey';
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/survey/1'
+        element={
+          <ProtectedRoute>
+            <Survey />
           </ProtectedRoute>
         }
       />
