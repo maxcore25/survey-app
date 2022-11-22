@@ -3,16 +3,11 @@ import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 import NinjaIcon from '../../../elements/icons/NinjaIcon';
 import styles from './Header.module.scss';
-import { useNavigate, useLocation } from 'react-router-dom';
-import useAuth from '../../../../hooks/useAuth';
 import { Stack } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import ProfileMenu from '../../../elements/menus/ProfileMenu';
 
 export default function Header({ logo, exit }) {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-  const { state } = useLocation();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -21,12 +16,6 @@ export default function Header({ logo, exit }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    logout().then(() => {
-      navigate(state?.path || '/');
-    });
   };
 
   return (
@@ -74,18 +63,6 @@ export default function Header({ logo, exit }) {
         </IconButton>
       </Stack>
       <ProfileMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
-      {/* {exit && (
-        <Button
-          variant='text'
-          color='error'
-          onClick={handleLogout}
-          sx={{
-            textTransform: 'none',
-            fontFamily: 'var(--primary-font)',
-          }}>
-          Выйти
-        </Button>
-      )} */}
     </header>
   );
 }

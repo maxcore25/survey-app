@@ -3,6 +3,8 @@ import { Menu, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import AppButton from '../../buttons/AppButton';
+import { useLocation, useNavigate } from 'react-router';
+import useAuth from '../../../../hooks/useAuth';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -30,6 +32,16 @@ const Data = styled(Typography)({
 });
 
 export default function ProfileMenu({ anchorEl, open, handleClose }) {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { state } = useLocation();
+
+  const handleLogout = () => {
+    logout().then(() => {
+      navigate(state?.path || '/');
+    });
+  };
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -83,7 +95,9 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
           <Data>100</Data>
         </Stack>
       </Stack>
-      <AppButton sx={{ p: 1.5, marginTop: '30px' }}>Выйти из системы</AppButton>
+      <AppButton onClick={handleLogout} sx={{ p: 1.5, marginTop: '30px' }}>
+        Выйти из системы
+      </AppButton>
     </Menu>
   );
 }
