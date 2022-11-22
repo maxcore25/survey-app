@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@mui/material';
+import { CardMedia, Paper, Typography } from '@mui/material';
 import { Stack } from 'immutable';
 import React from 'react';
 import AppButton from '../../buttons/AppButton';
@@ -31,7 +31,12 @@ export default function SurveyCard() {
       sx={{ borderRadius: '12px', border: '1px solid #D9DDE0' }}>
       <Theme>ТРАНСПОРТ</Theme>
       <Title>Викторина «Современные автовокзалы Москвы»</Title>
-      <img src='' alt='' />
+      <CardMedia
+        component='img'
+        height='160'
+        image='https://kipmu.ru/wp-content/uploads/klvrgfg-scaled.jpg'
+        alt='survey'
+      />
       <Stack direction='row'>
         <AppButton>Голосовать</AppButton>
       </Stack>
