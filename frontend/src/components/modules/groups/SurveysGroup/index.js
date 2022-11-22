@@ -8,7 +8,16 @@ export default function SurveysGroup() {
       sx={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '32px',
       }}>
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
+      <SurveyCard />
       <SurveyCard />
       <SurveyCard />
     </Stack>
