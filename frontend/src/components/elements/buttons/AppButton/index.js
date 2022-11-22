@@ -11,6 +11,7 @@ export default function AppButton({ children, onClick, sx, ...props }) {
         fontWeight: 400,
         fontSize: '14px',
         lineHeight: '150%',
+        fontFamily: 'inherit',
         textTransform: 'none',
         color: 'var(--color-white)',
         background: 'var(--color-primary)',
