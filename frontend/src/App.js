@@ -5,6 +5,7 @@ import SignUp from './pages/auth/SingUp';
 import Home from './pages/home';
 import ProtectedRoute from './components/elements/auth/ProtectedRoute';
 import Survey from './pages/survey';
+import Panel from './pages/panel';
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Survey />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/panel'
+        element={
+          <ProtectedRoute>
+            <Panel />
           </ProtectedRoute>
         }
       />
