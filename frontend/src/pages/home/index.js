@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AppLayout from '../../components/layouts/AppLayout';
 import SurveysLayout from '../../components/layouts/SurveysLayout';
 
-export default function User() {
+export default function Home() {
   const [name, setName] = useState('');
 
   const years = [
