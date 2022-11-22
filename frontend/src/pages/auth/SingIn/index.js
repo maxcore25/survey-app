@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import MireaNinjaIcon from '../../../components/elements/icons/MireaNinjaIcon';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import AppButton from '../../../components/elements/buttons/AppButton';
 
