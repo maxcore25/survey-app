@@ -29,7 +29,7 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     login(data.get('email'), data.get('password')).then(() => {
-      navigate(state?.path || '/student');
+      navigate(state?.path || '/home');
     });
   };
 
