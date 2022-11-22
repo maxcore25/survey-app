@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
@@ -14,8 +14,19 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { state } = useLocation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChangeEmail = e => {
+    setEmail(e.target.value);
+  };
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value);
+  };
 
   const handleSubmit = event => {
+    console.log({ email, password });
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     login(data.get('email'), data.get('password')).then(() => {
@@ -91,6 +102,8 @@ export default function SignIn() {
             noValidate
             sx={{ maxWidth: '394px' }}>
             <TextField
+              value={email}
+              onChange={handleChangeEmail}
               margin='normal'
               required
               fullWidth
@@ -106,6 +119,8 @@ export default function SignIn() {
               }}
             />
             <TextField
+              value={password}
+              onChange={handleChangePassword}
               margin='normal'
               required
               fullWidth
@@ -124,7 +139,7 @@ export default function SignIn() {
               type='submit'
               fullWidth
               variant='contained'
-              sx={{ mt: 3, mb: 2, p: 1.5 }}>
+              sx={{ mt: 3, mb: 2, p: 1.7 }}>
               Войти
             </AppButton>
           </Box>
