@@ -1,46 +1,91 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
-import MireaLogo from '../../../elements/icons/MireaLogo';
+import { Button, IconButton } from '@mui/material';
+import NinjaIcon from '../../../elements/icons/NinjaIcon';
 import styles from './Header.module.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
-
+import { Stack } from '@mui/system';
+import PersonIcon from '@mui/icons-material/Person';
+import ProfileMenu from '../../../elements/menus/ProfileMenu';
 
 export default function Header({ logo, exit }) {
-    const navigate = useNavigate();
-    const { logout } = useAuth();
-    const { state } = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { state } = useLocation();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-    const handleLogout = () => {
-        logout().then(() => {
-            navigate(state?.path || '/');
-        });
-    };
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    return (
-        <header className={styles.header}>
-            {logo && (
-                <div className={styles.logoContainer}>
-                    <Link to="/" style={{ width: 'fit-content', justifySelf: 'center' }}>
-                        <MireaLogo />
-                    </Link>
-                </div>
-            )}
-            <p>Электронная зачетная книжка</p>
-            {exit && (
-                <Button
-                    variant="text"
-                    color="error"
-                    onClick={handleLogout}
-                    sx={{
-                        textTransform: 'none',
-                        fontFamily: 'var(--primary-font)',
-                    }}
-                >
-                    Выйти
-                </Button>
-            )}
-        </header>
-    );
+  const handleLogout = () => {
+    logout().then(() => {
+      navigate(state?.path || '/');
+    });
+  };
+
+  return (
+    <header className={styles.header}>
+      <Stack
+        direction='row'
+        sx={{
+          width: '100%',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Stack direction='row' sx={{ gap: '32px' }}>
+          {logo && (
+            <div className={styles.logoContainer}>
+              <Link
+                to='/home'
+                style={{ width: 'fit-content', justifySelf: 'center' }}>
+                <NinjaIcon />
+              </Link>
+            </div>
+          )}
+          <Stack direction='row' sx={{ gap: '32px', alignItems: 'center' }}>
+            <Link to='/home' style={{ height: 'fit-content' }}>
+              <Button
+                sx={{
+                  textTransform: 'none',
+                }}>
+                Опросы
+              </Button>
+            </Link>
+            <Link to='/home' style={{ height: 'fit-content' }}>
+              <Button
+                sx={{
+                  textTransform: 'none',
+                }}>
+                Панель
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
+        <IconButton
+          onClick={handleClick}
+          sx={{ width: 'fit-content', height: 'fit-content' }}>
+          <PersonIcon />
+        </IconButton>
+      </Stack>
+      <ProfileMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
+      {/* {exit && (
+        <Button
+          variant='text'
+          color='error'
+          onClick={handleLogout}
+          sx={{
+            textTransform: 'none',
+            fontFamily: 'var(--primary-font)',
+          }}>
+          Выйти
+        </Button>
+      )} */}
+    </header>
+  );
 }
