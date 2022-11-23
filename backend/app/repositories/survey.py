@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql.expression import cast
 
-from app.database.tables import Survey, Answer
+from app.database.tables import Answer, Survey
 from app.models import SurveyCreate, SurveyPatch
 
 
@@ -20,7 +20,7 @@ class SurveyRepository:
             question=model.question,
             points=model.points,
             category=model.category,
-            answers=list()
+            answers=list(),
         )
         for ans in model.answers:
             answer_object = Answer(

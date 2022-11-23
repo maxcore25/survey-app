@@ -14,7 +14,6 @@ class SurveyBase(BaseModel):
     category: str = Field(description="Категория опроса")
 
 
-
 class SurveyCreate(SurveyBase):
     answers: list[AnswerCreate] = Field(description="Список ответов")
 
