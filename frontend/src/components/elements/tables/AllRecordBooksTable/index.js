@@ -36,6 +36,7 @@ import AppButton from '../../buttons/AppButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Chip from '@mui/material/Chip';
 import StatusChip from './StatusChip';
+import AddSurveyModal from '../../modals/AddSurveyModal';
 
 const rows = [
   {
@@ -245,6 +246,10 @@ export default function AllRecordBooksTable() {
   const [status, setStatus] = React.useState('');
   const [category, setCategory] = React.useState('');
 
+  const [openAddSurveyModal, setOpenAddSurveyModal] = React.useState(false);
+  const handleOpenAddSurveyModal = () => setOpenAddSurveyModal(true);
+  const handleCloseAddSurveyModal = () => setOpenAddSurveyModal(false);
+
   const handleChangeStatus = event => {
     setStatus(event.target.value);
   };
@@ -308,165 +313,172 @@ export default function AllRecordBooksTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper
-        sx={{
-          width: '100%',
-          mb: 2,
-          borderRadius: '12px',
-          boxShadow: '0px 4px 20px rgba(83, 83, 83, 0.1)',
-        }}>
-        <Stack
-          direction='row'
+    <>
+      <Box sx={{ width: '100%' }}>
+        <Paper
           sx={{
-            p: '16px',
-            gap: '16px',
-            alignItems: 'center',
-            display: 'grid',
-            gridTemplateColumns: '180px 180px 1fr auto',
+            width: '100%',
+            mb: 2,
+            borderRadius: '12px',
+            boxShadow: '0px 4px 20px rgba(83, 83, 83, 0.1)',
           }}>
-          <FormControl>
-            <InputLabel>Статус</InputLabel>
-            <Select
-              id='demo-simple-select'
-              value={status}
-              label='Статус'
-              onChange={handleChangeStatus}>
-              <MenuItem value={10}>Открыт</MenuItem>
-              <MenuItem value={20}>Закрыт</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <InputLabel>Категория</InputLabel>
-            <Select
-              id='demo-simple-select'
-              value={category}
-              label='Категория'
-              onChange={handleChangeCategory}>
-              <MenuItem value={10}>Транспорт</MenuItem>
-              <MenuItem value={20}>Общество</MenuItem>
-              <MenuItem value={30}>Город</MenuItem>
-              <MenuItem value={30}>Образование</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            label='Поиск'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            variant='outlined'
-          />
-          <AppButton
-            startIcon={<AddCircleOutlineIcon />}
-            sx={{ height: 'fit-content', p: 1.5 }}>
-            Добавить
-          </AppButton>
-        </Stack>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+          <Stack
+            direction='row'
+            sx={{
+              p: '16px',
+              gap: '16px',
+              alignItems: 'center',
+              display: 'grid',
+              gridTemplateColumns: '180px 180px 1fr auto',
+            }}>
+            <FormControl>
+              <InputLabel>Статус</InputLabel>
+              <Select
+                id='demo-simple-select'
+                value={status}
+                label='Статус'
+                onChange={handleChangeStatus}>
+                <MenuItem value={10}>Открыт</MenuItem>
+                <MenuItem value={20}>Закрыт</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>Категория</InputLabel>
+              <Select
+                id='demo-simple-select'
+                value={category}
+                label='Категория'
+                onChange={handleChangeCategory}>
+                <MenuItem value={10}>Транспорт</MenuItem>
+                <MenuItem value={20}>Общество</MenuItem>
+                <MenuItem value={30}>Город</MenuItem>
+                <MenuItem value={30}>Образование</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              label='Поиск'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              variant='outlined'
             />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+            <AppButton
+              onClick={handleOpenAddSurveyModal}
+              startIcon={<AddCircleOutlineIcon />}
+              sx={{ height: 'fit-content', p: 1.5 }}>
+              Добавить
+            </AppButton>
+          </Stack>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <TableContainer>
+            <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.date);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.date);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.date)}
-                      role='checkbox'
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.date}
-                      selected={isItemSelected}>
-                      <TableCell padding='checkbox'>
-                        <Checkbox
-                          color='primary'
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component='th'
-                        id={labelId}
-                        scope='row'
-                        padding='none'>
-                        {row.date}
-                      </TableCell>
-                      <TableCell sx={{ maxWidth: '400px' }}>
-                        {row.name}
-                      </TableCell>
-                      <TableCell>
-                        <Chip label={row.category} />
-                      </TableCell>
-                      <TableCell>{row.answered} человек</TableCell>
-                      <TableCell>
-                        <Button
-                          onClick={e => e.stopPropagation()}
-                          href={row.results}
-                          download
-                          sx={{
-                            textTransform: 'none',
-                            color: 'var(--color-primary)',
-                          }}>
-                          Скачать
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <StatusChip isOpen={row.isOpen} />
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          onClick={e => {
-                            e.stopPropagation();
-                            setAnchorEl(e.currentTarget);
-                          }}>
-                          <MoreVertIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component='div'
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+                    return (
+                      <TableRow
+                        hover
+                        onClick={event => handleClick(event, row.date)}
+                        role='checkbox'
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.date}
+                        selected={isItemSelected}>
+                        <TableCell padding='checkbox'>
+                          <Checkbox
+                            color='primary'
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component='th'
+                          id={labelId}
+                          scope='row'
+                          padding='none'>
+                          {row.date}
+                        </TableCell>
+                        <TableCell sx={{ maxWidth: '400px' }}>
+                          {row.name}
+                        </TableCell>
+                        <TableCell>
+                          <Chip label={row.category} />
+                        </TableCell>
+                        <TableCell>{row.answered} человек</TableCell>
+                        <TableCell>
+                          <Button
+                            onClick={e => e.stopPropagation()}
+                            href={row.results}
+                            download
+                            sx={{
+                              textTransform: 'none',
+                              color: 'var(--color-primary)',
+                            }}>
+                            Скачать
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <StatusChip isOpen={row.isOpen} />
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            onClick={e => {
+                              e.stopPropagation();
+                              setAnchorEl(e.currentTarget);
+                            }}>
+                            <MoreVertIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 53 * emptyRows,
+                    }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component='div'
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Box>
       <OptionsMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
-    </Box>
+      <AddSurveyModal
+        open={openAddSurveyModal}
+        onClose={handleCloseAddSurveyModal}
+      />
+    </>
   );
 }
