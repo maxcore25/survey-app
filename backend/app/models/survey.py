@@ -36,3 +36,7 @@ class SurveyGet(SurveyBase):
 class SurveyPatch(SurveyBase):
     answers: Optional[list[AnswerCreate]] = Field(None, description="Список ответов")
     is_active: Optional[bool] = Field(None, description="Активен ли опрос")
+
+
+class SurveyVote(BaseModel):
+    answer_id: UUID4 = Field(description="Уникальный идентификатор ответа")

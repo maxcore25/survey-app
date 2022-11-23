@@ -4,7 +4,7 @@ from fastapi import HTTPException, Response
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import SurveyCreate, SurveyGet, SurveyPatch
+from app.models import SurveyCreate, SurveyGet, SurveyPatch, SurveyVote
 from app.repositories import SurveyRepository
 
 
@@ -46,3 +46,10 @@ class SurveyService:
     async def delete(db: AsyncSession, guid: UUID4) -> Response(status_code=204):
         await SurveyRepository.delete(db, guid)
         return Response(status_code=204)
+
+    @staticmethod
+    async def vote(db: AsyncSession, guid: UUID4, user: UUID4, model: SurveyVote) -> SurveyGet:
+        survey = await SurveyRepository.vote(db, guid, user, model)
+        if survey is None:
+            raise HTTPException(404, "Опрос не найден")
+        return SurveyGet.from_orm(survey)

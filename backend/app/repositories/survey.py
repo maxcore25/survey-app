@@ -8,7 +8,9 @@ from sqlalchemy.future import select
 from sqlalchemy.sql.expression import cast
 
 from app.database.tables import Answer, Survey
-from app.models import SurveyCreate, SurveyPatch
+from app.models import SurveyCreate, SurveyPatch, SurveyVote
+from app.repositories.answer import AnswerRepository
+from app.repositories.user import UserRepository
 
 
 class SurveyRepository:
@@ -75,3 +77,26 @@ class SurveyRepository:
     async def delete(db: AsyncSession, guid: UUID4) -> None:
         await db.execute(delete(Survey).where(Survey.guid == guid))
         await db.commit()
+
+    @staticmethod
+    async def vote(db: AsyncSession, guid: UUID4, user: UUID4, model: SurveyVote) -> Survey:
+        survey = await SurveyRepository.get(db, guid)
+        answer = await AnswerRepository.get(db, model.answer_id)
+        user = await UserRepository.get(db, user)
+
+        if survey is None:
+            raise HTTPException(404, "Опрос не найден")
+
+        if model is None or not model.dict(exclude_unset=True):
+            raise HTTPException(400, "Должно быть задано хотя бы одно новое поле модели")
+
+        survey.voted += 1
+        answer.voted += 1
+        user.points += survey.points
+
+        await db.commit()
+        await db.refresh(answer)
+        await db.refresh(survey)
+        await db.refresh(user)
+
+        return survey
