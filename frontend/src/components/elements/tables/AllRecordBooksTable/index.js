@@ -37,6 +37,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Chip from '@mui/material/Chip';
 import StatusChip from './StatusChip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
+import EditSurveyModal from '../../modals/EditSurveyModal';
 
 const rows = [
   {
@@ -249,6 +250,10 @@ export default function AllRecordBooksTable() {
   const [openAddSurveyModal, setOpenAddSurveyModal] = React.useState(false);
   const handleOpenAddSurveyModal = () => setOpenAddSurveyModal(true);
   const handleCloseAddSurveyModal = () => setOpenAddSurveyModal(false);
+
+  const [openEditSurveyModal, setOpenEditSurveyModal] = React.useState(false);
+  const handleOpenEditSurveyModal = () => setOpenEditSurveyModal(true);
+  const handleCloseEditSurveyModal = () => setOpenEditSurveyModal(false);
 
   const handleChangeStatus = event => {
     setStatus(event.target.value);
@@ -478,10 +483,15 @@ export default function AllRecordBooksTable() {
         anchorEl={anchorEl}
         open={openOptionsMenu}
         handleClose={handleCloseOptionsMenu}
+        onEdit={handleOpenEditSurveyModal}
       />
       <AddSurveyModal
         open={openAddSurveyModal}
         onClose={handleCloseAddSurveyModal}
+      />
+      <EditSurveyModal
+        open={openEditSurveyModal}
+        onClose={handleCloseEditSurveyModal}
       />
     </>
   );

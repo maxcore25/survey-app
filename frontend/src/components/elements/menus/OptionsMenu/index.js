@@ -3,7 +3,7 @@ import { ListItemIcon, Menu, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function OptionsMenu({ anchorEl, open, handleClose }) {
+export default function OptionsMenu({ anchorEl, open, handleClose, onEdit }) {
   return (
     <Menu
       anchorEl={anchorEl}
@@ -40,13 +40,13 @@ export default function OptionsMenu({ anchorEl, open, handleClose }) {
       }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-      <MenuItem>
+      <MenuItem onClick={onEdit}>
         <ListItemIcon>
           <EditIcon fontSize='small' />
         </ListItemIcon>
         Редактировать
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={() => console.log('delete')}>
         <ListItemIcon>
           <DeleteIcon fontSize='small' />
         </ListItemIcon>
