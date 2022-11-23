@@ -2,15 +2,15 @@ import { Stack } from '@mui/system';
 import React, { useState } from 'react';
 import BaseModal from '../BaseModal';
 import { styled } from '@mui/material/styles';
-import { TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import AppButton from '../../buttons/AppButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const testSurvey = {
-  name: '',
-  description: '',
-  shortName: '',
-  answers: [{ name: '' }, { name: 'qwe' }],
+  name: 'Название для новой улицы в Нижегородском районе',
+  description:
+    'В Нижегородском районе ЮВАО предлагается дать название сразу трем Проектируемым проездам. Они тянутся друг за другом и пролегают от станции Новопролетарской до дома № 28 на Орехово-Зуевском проезде. Все три участка планируют объединить в одну улицу. Свои варианты наименований для нее могут предложить активные граждане. Так, например, эта улица могла бы носить название Пятигорской по своему географическому положению. «Пятигорские» наименования возле Рязанского проспекта имеют отсылку к Лермонтовскому проспекту, являющемуся его продолжением после пересечения с МКАД. Он, в свою очередь, направлен в сторону усадьбы Тарханы — это одно из наиболее известных лермонтовских мест России.',
+  shortName: 'Как назвать эту московскую улицу?',
+  answers: [{ name: 'Lorem ipsum dolor sit amet' }, { name: 'qwe' }],
 };
 
 const Title = styled(Typography)({
@@ -19,6 +19,31 @@ const Title = styled(Typography)({
   fontSize: '20px',
   lineHeight: '22px',
   color: '#000',
+});
+
+const Stats = styled(Typography)({
+  fontFamily: 'inherit',
+  fontWeight: 500,
+  fontSize: '18px',
+  lineHeight: '22px',
+  color: '#3E3E41',
+});
+
+const StatsNumber = styled(Typography)({
+  margin: '0 4px',
+  display: 'inline-block',
+  color: 'var(--color-primary)',
+  fontWeight: 700,
+  fontSize: '18px',
+  lineHeight: '22px',
+});
+
+const GradientBox = styled(Box)({
+  display: 'grid',
+  placeContent: 'center',
+  height: '264px',
+  background:
+    'linear-gradient(92.83deg, #FFFFFF 0%, #009A96 0.01%, #00699E 100%)',
 });
 
 export default function EditSurveyModal({
@@ -52,11 +77,6 @@ export default function EditSurveyModal({
       answers,
     });
 
-    setName('');
-    setDescription('');
-    setShortName('');
-    setAnswers([{ name: '' }]);
-
     onClose();
   };
 
@@ -76,6 +96,11 @@ export default function EditSurveyModal({
             }}
           />
         </Stack>
+        <Stats>
+          Проголосовало:
+          <StatsNumber component='span'>21030</StatsNumber>
+          человек
+        </Stats>
         <Stack sx={{ gap: '10px' }}>
           <Title>Описание</Title>
           <TextField
@@ -91,19 +116,34 @@ export default function EditSurveyModal({
             }}
           />
         </Stack>
-        <Stack sx={{ gap: '10px' }}>
-          <Title>Краткое название</Title>
+        <GradientBox>
           <TextField
             variant='outlined'
             value={shortName}
             onChange={handleChangeShortName}
             sx={{
+              width: '80vw',
+              maxWidth: '800px',
+
               '& input': {
                 fontFamily: 'var(--primary-font)',
+                fontWeight: 700,
+                fontSize: '24px',
+                lineHeight: '26px',
+                color: '#fff',
+              },
+              '& fieldset': {
+                borderColor: '#fff',
+              },
+              '.MuiInputBase-root:hover fieldset': {
+                borderColor: '#fff',
+              },
+              '.MuiInputBase-root.Mui-focused fieldset': {
+                borderColor: 'var(--color-primary)',
               },
             }}
           />
-        </Stack>
+        </GradientBox>
         <Stack sx={{ gap: '10px' }}>
           <Title>Варианты ответов</Title>
           <Stack sx={{ gap: '20px' }}>
@@ -111,25 +151,11 @@ export default function EditSurveyModal({
               <AnswerInput key={answer.name} value={answer.name} />
             ))}
           </Stack>
-          <Stack direction='row' justifyContent='center'>
-            <AppButton
-              startIcon={<AddCircleOutlineIcon />}
-              sx={{
-                mt: 2,
-                width: '120px',
-                height: '40px',
-
-                '& .MuiButton-startIcon': {
-                  margin: 0,
-                },
-              }}
-            />
-          </Stack>
         </Stack>
         <AppButton
           type='submit'
           sx={{ width: '172px', p: 1.5, alignSelf: 'center', mt: 4 }}>
-          Создать
+          Сохранить
         </AppButton>
       </Stack>
     </BaseModal>
