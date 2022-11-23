@@ -242,7 +242,7 @@ export default function AllRecordBooksTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const openOptionsMenu = Boolean(anchorEl);
   const [status, setStatus] = React.useState('');
   const [category, setCategory] = React.useState('');
 
@@ -258,7 +258,7 @@ export default function AllRecordBooksTable() {
     setCategory(event.target.value);
   };
 
-  const handleClose = () => {
+  const handleCloseOptionsMenu = () => {
     setAnchorEl(null);
   };
 
@@ -474,7 +474,11 @@ export default function AllRecordBooksTable() {
           />
         </Paper>
       </Box>
-      <OptionsMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
+      <OptionsMenu
+        anchorEl={anchorEl}
+        open={openOptionsMenu}
+        handleClose={handleCloseOptionsMenu}
+      />
       <AddSurveyModal
         open={openAddSurveyModal}
         onClose={handleCloseAddSurveyModal}
