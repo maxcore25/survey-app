@@ -21,8 +21,18 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import OptionsMenu from '../../menus/OptionsMenu';
 import { getComparator, stableSort } from '../../../../utils/functions';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { Stack } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
+import AppButton from '../../buttons/AppButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const rows = [
   {
@@ -207,10 +217,15 @@ export default function AllRecordBooksTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const [student, setStudent] = React.useState('');
+  const [status, setStatus] = React.useState('');
+  const [category, setCategory] = React.useState('');
 
-  const handleChangeStudent = event => {
-    setStudent(event.target.value);
+  const handleChangeStatus = event => {
+    setStatus(event.target.value);
+  };
+
+  const handleChangeCategory = event => {
+    setCategory(event.target.value);
   };
 
   const handleClose = () => {
@@ -276,19 +291,55 @@ export default function AllRecordBooksTable() {
           borderRadius: '12px',
           boxShadow: '0px 4px 20px rgba(83, 83, 83, 0.1)',
         }}>
-        <Stack sx={{ p: '16px' }}>
-          <FormControl fullWidth>
-            <InputLabel>Студент</InputLabel>
+        <Stack
+          direction='row'
+          sx={{
+            p: '16px',
+            gap: '16px',
+            alignItems: 'center',
+            display: 'grid',
+            gridTemplateColumns: '180px 180px 1fr auto',
+          }}>
+          <FormControl>
+            <InputLabel>Статус</InputLabel>
             <Select
               id='demo-simple-select'
-              value={student}
-              label='Студент'
-              onChange={handleChangeStudent}>
-              <MenuItem value={10}>Иванов</MenuItem>
-              <MenuItem value={20}>Глазунов</MenuItem>
-              <MenuItem value={30}>Репин</MenuItem>
+              value={status}
+              label='Статус'
+              onChange={handleChangeStatus}>
+              <MenuItem value={10}>Открыт</MenuItem>
+              <MenuItem value={20}>Закрыт</MenuItem>
             </Select>
           </FormControl>
+          <FormControl>
+            <InputLabel>Категория</InputLabel>
+            <Select
+              id='demo-simple-select'
+              value={category}
+              label='Категория'
+              onChange={handleChangeCategory}>
+              <MenuItem value={10}>Транспорт</MenuItem>
+              <MenuItem value={20}>Общество</MenuItem>
+              <MenuItem value={30}>Город</MenuItem>
+              <MenuItem value={30}>Образование</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label='Поиск'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant='outlined'
+          />
+          <AppButton
+            startIcon={<AddCircleOutlineIcon />}
+            sx={{ height: 'fit-content', p: 1.5 }}>
+            Добавить
+          </AppButton>
         </Stack>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
