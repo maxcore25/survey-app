@@ -22,6 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import OptionsMenu from '../../menus/OptionsMenu';
 import { getComparator, stableSort } from '../../../../utils/functions';
 import {
+  Button,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -33,39 +34,57 @@ import { Stack } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
 import AppButton from '../../buttons/AppButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Chip from '@mui/material/Chip';
+import StatusChip from './StatusChip';
 
 const rows = [
   {
     date: '30.06.2022',
-    subject:
-      'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    semester: '4 семестр 2021/2022',
-    type: 'Экзамен',
-    mark: 'Отлично',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: true,
   },
   {
-    date: '20.06.2022',
-    subject:
-      'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    semester: '4 семестр 2021/2022',
-    type: 'Экзамен',
-    mark: 'Отлично',
+    date: '30.06.2021',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: false,
   },
   {
-    date: '25.05.2022',
-    subject:
-      'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    semester: '4 семестр 2021/2022',
-    type: 'Экзамен',
-    mark: 'Отлично',
+    date: '30.06.2020',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: false,
   },
   {
-    date: '19.04.2022',
-    subject:
-      'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    semester: '4 семестр 2021/2022',
-    type: 'Экзамен',
-    mark: 'Отлично',
+    date: '30.06.2019',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: false,
+  },
+  {
+    date: '30.06.2018',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: false,
+  },
+  {
+    date: '30.06.2017',
+    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
+    category: 'Транспорт',
+    answered: 231882,
+    results: 'results.csv',
+    isOpen: false,
   },
 ];
 
@@ -74,31 +93,37 @@ const headCells = [
     id: 'date',
     numeric: false,
     disablePadding: true,
-    label: 'Дата',
+    label: 'Дата создания',
   },
   {
-    id: 'subject',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Предмет',
+    label: 'Название',
   },
   {
-    id: 'semester',
+    id: 'category',
     numeric: false,
     disablePadding: false,
-    label: 'Семетр/Год',
+    label: 'Категория',
   },
   {
-    id: 'type',
+    id: 'answered',
     numeric: false,
     disablePadding: false,
-    label: 'Тип',
+    label: 'Ответило',
   },
   {
-    id: 'mark',
+    id: 'results',
     numeric: false,
     disablePadding: false,
-    label: 'Оценка',
+    label: 'Результаты',
+  },
+  {
+    id: 'status',
+    numeric: false,
+    disablePadding: false,
+    label: 'Статус',
   },
   {
     id: 'options',
@@ -191,7 +216,7 @@ function EnhancedTableToolbar(props) {
             color='inherit'
             variant='subtitle1'
             component='div'>
-            {numSelected} selected
+            {numSelected} выбрано
           </Typography>
 
           <Tooltip title='Delete'>
@@ -386,10 +411,28 @@ export default function AllRecordBooksTable() {
                         padding='none'>
                         {row.date}
                       </TableCell>
-                      <TableCell>{row.subject}</TableCell>
-                      <TableCell>{row.semester}</TableCell>
-                      <TableCell>{row.type}</TableCell>
-                      <TableCell>{row.mark}</TableCell>
+                      <TableCell sx={{ maxWidth: '400px' }}>
+                        {row.name}
+                      </TableCell>
+                      <TableCell>
+                        <Chip label={row.category} />
+                      </TableCell>
+                      <TableCell>{row.answered} человек</TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={e => e.stopPropagation()}
+                          href={row.results}
+                          download
+                          sx={{
+                            textTransform: 'none',
+                            color: 'var(--color-primary)',
+                          }}>
+                          Скачать
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <StatusChip isOpen={row.isOpen} />
+                      </TableCell>
                       <TableCell>
                         <IconButton
                           onClick={e => {
