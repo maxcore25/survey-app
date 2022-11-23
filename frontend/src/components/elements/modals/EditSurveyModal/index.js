@@ -130,6 +130,7 @@ export default function EditSurveyModal({
                 fontWeight: 700,
                 fontSize: '24px',
                 lineHeight: '26px',
+                textAlign: 'center',
                 color: '#fff',
               },
               '& fieldset': {
