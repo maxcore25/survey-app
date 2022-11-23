@@ -236,7 +236,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function AllRecordBooksTable() {
+export default function SurveysTable() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('subject');
   const [selected, setSelected] = React.useState([]);
