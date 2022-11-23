@@ -42,6 +42,7 @@ export default function Header({ logo, exit }) {
               <Button
                 sx={{
                   textTransform: 'none',
+                  color: 'var(--color-primary)',
                 }}>
                 Опросы
               </Button>
@@ -50,6 +51,7 @@ export default function Header({ logo, exit }) {
               <Button
                 sx={{
                   textTransform: 'none',
+                  color: 'var(--color-primary)',
                 }}>
                 Панель
               </Button>
