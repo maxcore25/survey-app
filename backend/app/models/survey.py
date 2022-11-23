@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import UUID4, BaseModel, Field
 
@@ -21,7 +22,7 @@ class SurveyCreate(SurveyBase):
 class SurveyGet(SurveyBase):
     guid: UUID4 = Field(description="Уникальный идентификатор опроса")
     voted: int = Field(description="Количество проголосовавших пользователей")
-    is_active: str = Field(description="Активен ли опрос")
+    is_active: bool = Field(description="Активен ли опрос")
     answers: list[AnswerGet] = Field(description="Список ответов")
     is_deleted: bool = Field(False, description="Удален ли опрос")
     created_at: datetime = Field(description="Время создания опроса")
@@ -32,5 +33,6 @@ class SurveyGet(SurveyBase):
 
 
 @optional
-class SurveyPatch(SurveyCreate):
-    pass
+class SurveyPatch(SurveyBase):
+    answers: Optional[list[AnswerCreate]] = Field(None, description="Список ответов")
+    is_active: Optional[bool] = Field(None, description="Активен ли опрос")

@@ -25,11 +25,11 @@ export default function SignIn() {
   };
 
   const handleSubmit = event => {
-    console.log({ email, password });
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     login(data.get('email'), data.get('password')).then(() => {
-      navigate(state?.path || '/home');
+      const endpoint = localStorage.getItem('role') === "user" ? '/home' : '/panel';
+      navigate(state?.path || endpoint);
     });
   };
 

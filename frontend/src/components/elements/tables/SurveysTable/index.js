@@ -39,57 +39,6 @@ import StatusChip from './StatusChip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
 import EditSurveyModal from '../../modals/EditSurveyModal';
 
-const rows = [
-  {
-    date: '30.06.2022',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: true,
-  },
-  {
-    date: '30.06.2021',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2020',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2019',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2018',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2017',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-];
-
 const headCells = [
   {
     id: 'date',
@@ -236,7 +185,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function SurveysTable() {
+export default function SurveysTable({ rows }) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('subject');
   const [selected, setSelected] = React.useState([]);
@@ -421,15 +370,15 @@ export default function SurveysTable() {
                           id={labelId}
                           scope='row'
                           padding='none'>
-                          {row.date}
+                          {row.created_at}
                         </TableCell>
                         <TableCell sx={{ maxWidth: '400px' }}>
-                          {row.name}
+                          {row.title}
                         </TableCell>
                         <TableCell>
                           <Chip label={row.category} />
                         </TableCell>
-                        <TableCell>{row.answered} человек</TableCell>
+                        <TableCell>{row.voted} человек</TableCell>
                         <TableCell>
                           <Button
                             onClick={e => e.stopPropagation()}
@@ -443,7 +392,7 @@ export default function SurveysTable() {
                           </Button>
                         </TableCell>
                         <TableCell>
-                          <StatusChip isOpen={row.isOpen} />
+                          <StatusChip isOpen={row.is_active} />
                         </TableCell>
                         <TableCell>
                           <IconButton

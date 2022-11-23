@@ -22,14 +22,18 @@ const Title = styled(Typography)({
   color: '#2B2B2C',
 });
 
-export default function SurveyCard() {
+export default function SurveyCard({ survey }) {
+  const handleClick = () => {
+    localStorage.setItem('surveyId', survey.guid);
+  }
+
   return (
     <Paper
       elevation={0}
       sx={{ borderRadius: '12px', border: '1px solid #D9DDE0' }}>
       <Stack sx={{ p: 2, marginBottom: '8px', gap: '16px' }}>
-        <Theme>ТРАНСПОРТ</Theme>
-        <Title>Викторина «Современные автовокзалы Москвы»</Title>
+        <Theme>{survey.category}</Theme>
+        <Title>{survey.title}</Title>
       </Stack>
       <CardMedia
         component='img'
@@ -40,13 +44,13 @@ export default function SurveyCard() {
       <Stack
         direction='row'
         sx={{ p: 2, alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link to='/survey/1'>
-          <AppButton>Голосовать</AppButton>
-        </Link>
+        {survey.is_active && (<Link to='/survey'>
+          <AppButton onClick={handleClick}>Голосовать</AppButton>
+        </Link>)}
         <Typography
           component='span'
           sx={{ color: 'var(--color-primary)', fontFamily: 'inherit' }}>
-          +20 баллов
+          +{survey.points} баллов
         </Typography>
       </Stack>
     </Paper>

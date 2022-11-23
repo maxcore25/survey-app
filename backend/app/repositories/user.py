@@ -14,7 +14,7 @@ from app.models import UserCreate, UserPatch
 class UserRepository:
     @staticmethod
     async def create(db: AsyncSession, model: UserCreate) -> User:
-        user = User(**model.dict())
+        user = User(**model.dict(exclude_unset=True))
         db.add(user)
         await db.commit()
         await db.refresh(user)

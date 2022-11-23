@@ -2,7 +2,7 @@ import { Stack } from '@mui/system';
 import React from 'react';
 import SurveyCard from '../../../elements/cards/SurveyCard';
 
-export default function SurveysGroup() {
+export default function SurveysGroup({surveys}) {
   return (
     <Stack
       sx={{
@@ -10,16 +10,9 @@ export default function SurveysGroup() {
         gridTemplateColumns: 'repeat(4, 1fr)',
         gap: '32px',
       }}>
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
+      {surveys.map(survey => (
+        <SurveyCard key={survey.guid} survey={survey} />
+      ))}
     </Stack>
   );
 }
