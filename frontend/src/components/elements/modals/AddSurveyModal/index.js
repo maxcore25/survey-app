@@ -18,6 +18,7 @@ export default function AddSurveyModal({ open, onClose }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [shortName, setShortName] = useState('');
+  const [answers, setAnswers] = useState([{ name: '' }]);
 
   const handleChangeName = e => {
     setName(e.target.value);
@@ -33,6 +34,19 @@ export default function AddSurveyModal({ open, onClose }) {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log({
+      name,
+      description,
+      shortName,
+      answers,
+    });
+
+    setName('');
+    setDescription('');
+    setShortName('');
+    setAnswers([{ name: '' }]);
+
+    onClose();
   };
 
   return (
@@ -82,42 +96,9 @@ export default function AddSurveyModal({ open, onClose }) {
         <Stack sx={{ gap: '10px' }}>
           <Title>Варианты ответов</Title>
           <Stack sx={{ gap: '20px' }}>
-            <TextField
-              placeholder='Вариант ответа'
-              variant='outlined'
-              sx={{
-                '& input': {
-                  fontFamily: 'var(--primary-font)',
-                },
-              }}
-            />
-            <TextField
-              placeholder='Вариант ответа'
-              variant='outlined'
-              sx={{
-                '& input': {
-                  fontFamily: 'var(--primary-font)',
-                },
-              }}
-            />
-            <TextField
-              placeholder='Вариант ответа'
-              variant='outlined'
-              sx={{
-                '& input': {
-                  fontFamily: 'var(--primary-font)',
-                },
-              }}
-            />
-            <TextField
-              placeholder='Вариант ответа'
-              variant='outlined'
-              sx={{
-                '& input': {
-                  fontFamily: 'var(--primary-font)',
-                },
-              }}
-            />
+            {answers.map(answer => (
+              <AnswerInput key={answer.name} value={answer.name} />
+            ))}
           </Stack>
           <Stack direction='row' justifyContent='center'>
             <AppButton
@@ -141,5 +122,28 @@ export default function AddSurveyModal({ open, onClose }) {
         </AppButton>
       </Stack>
     </BaseModal>
+  );
+}
+
+function AnswerInput({ ...props }) {
+  const [name, setName] = useState('');
+
+  const handleChange = e => {
+    setName(e.target.name);
+  };
+
+  return (
+    <TextField
+      value={name}
+      onChange={handleChange}
+      placeholder='Вариант ответа'
+      variant='outlined'
+      sx={{
+        '& input': {
+          fontFamily: 'var(--primary-font)',
+        },
+      }}
+      {...props}
+    />
   );
 }
