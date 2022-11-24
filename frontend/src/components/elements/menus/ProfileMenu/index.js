@@ -95,7 +95,7 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
       <Stack sx={{ gap: '10px' }}>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Имя</Point>
-          <Data>{user.fist_name} {user.last_name} {user.middle_name}</Data>
+          <Data>{user.last_name} {user.first_name} {user.middle_name}</Data>
         </Stack>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Почта</Point>

@@ -38,7 +38,7 @@ export default function SurveyCard({ survey }) {
       <CardMedia
         component='img'
         height='160'
-        image='https://kipmu.ru/wp-content/uploads/klvrgfg-scaled.jpg'
+        image='https://cms.ag.mos.ru/images/thumbnails/AG_Bolshaya_victorina_v13_280x200.png'
         alt='survey'
       />
       <Stack

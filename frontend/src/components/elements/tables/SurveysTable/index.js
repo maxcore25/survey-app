@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -38,6 +38,7 @@ import Chip from '@mui/material/Chip';
 import StatusChip from './StatusChip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
 import EditSurveyModal from '../../modals/EditSurveyModal';
+import { MainContext } from '../../../../context/MainContextProvider';
 
 const headCells = [
   {
@@ -195,13 +196,16 @@ export default function SurveysTable({ rows }) {
   const openOptionsMenu = Boolean(anchorEl);
   const [status, setStatus] = React.useState('');
   const [category, setCategory] = React.useState('');
+  const { setSelectedSurvey } = useContext(MainContext);
 
   const [openAddSurveyModal, setOpenAddSurveyModal] = React.useState(false);
   const handleOpenAddSurveyModal = () => setOpenAddSurveyModal(true);
   const handleCloseAddSurveyModal = () => setOpenAddSurveyModal(false);
 
   const [openEditSurveyModal, setOpenEditSurveyModal] = React.useState(false);
-  const handleOpenEditSurveyModal = () => setOpenEditSurveyModal(true);
+  const handleOpenEditSurveyModal = e => {
+    setOpenEditSurveyModal(true);
+  };
   const handleCloseEditSurveyModal = () => setOpenEditSurveyModal(false);
 
   const handleChangeStatus = event => {
@@ -398,6 +402,7 @@ export default function SurveysTable({ rows }) {
                           <IconButton
                             onClick={e => {
                               e.stopPropagation();
+                              setSelectedSurvey(row);
                               setAnchorEl(e.currentTarget);
                             }}>
                             <MoreVertIcon />

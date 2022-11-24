@@ -34,7 +34,7 @@ class SurveyGet(SurveyBase):
 
 @optional
 class SurveyPatch(SurveyBase):
-    answers: Optional[list[AnswerCreate]] = Field(None, description="Список ответов")
+    answers: Optional[list[AnswerGet]] = Field(None, description="Список ответов")
     is_active: Optional[bool] = Field(None, description="Активен ли опрос")
 
 
