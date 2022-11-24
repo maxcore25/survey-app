@@ -8,11 +8,13 @@ from app.routers.auth import router as auth_router
 from app.routers.survey import router as survey_router
 from app.routers.user import router as user_router
 from app.routers.vote import router as vote_router
+from app.routers.result import router as result_router
 
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},
     {"name": "users", "description": "Работа с пользователями"},
     {"name": "surveys", "description": "Работа с опросами"},
+    {"name": "results", "description": "Работа с результатми"},
     {"name": "votes", "description": "Работа с голосованием"},
     {"name": "answers", "description": "Работа с ответами"},
 ]
@@ -40,4 +42,5 @@ app.include_router(auth_router, tags=["auth"])
 app.include_router(user_router, tags=["users"])
 app.include_router(survey_router, tags=["surveys"])
 app.include_router(vote_router, tags=["votes"])
+app.include_router(result_router, tags=["results"])
 app.include_router(answer_router, tags=["answers"])

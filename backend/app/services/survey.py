@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import io
+
+import matplotlib.pyplot as plt
 from fastapi import HTTPException, Response
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -53,3 +56,20 @@ class SurveyService:
         if survey is None:
             raise HTTPException(404, "Опрос не найден")
         return SurveyGet.from_orm(survey)
+
+    @staticmethod
+    async def results(db: AsyncSession, guid: UUID4) -> Response:
+        survey = await SurveyRepository.get(db, guid)
+        fig, ax = plt.subplots()
+
+        answers = [answer.title for answer in survey.answers]
+        voted = [answer.voted for answer in survey.answers]
+
+        ax.bar(answers, voted)
+        ax.set_ylabel("Amount of votes")
+        ax.set_title(f"Vote results for {guid}")
+
+        survey_bar = io.BytesIO()
+        plt.savefig(survey_bar, format="png")
+        survey_bar.seek(0)
+        return Response(content=survey_bar.read(), media_type="image/png")

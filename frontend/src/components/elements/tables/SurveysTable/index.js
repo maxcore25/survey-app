@@ -39,6 +39,7 @@ import StatusChip from './StatusChip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
 import EditSurveyModal from '../../modals/EditSurveyModal';
 import { MainContext } from '../../../../context/MainContextProvider';
+import API from '../../../../api';
 
 const headCells = [
   {
@@ -386,8 +387,7 @@ export default function SurveysTable({ rows }) {
                         <TableCell>
                           <Button
                             onClick={e => e.stopPropagation()}
-                            href={row.results}
-                            download
+                            href={`http://localhost:8080/api/survey/vote/result/${row.guid}`}
                             sx={{
                               textTransform: 'none',
                               color: 'var(--color-primary)',

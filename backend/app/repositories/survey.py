@@ -51,7 +51,9 @@ class SurveyRepository:
         if survey is None:
             raise HTTPException(404, "Опрос не найден")
 
-        await db.execute(update(Survey).where(Survey.guid == guid).values(**model.dict(exclude_unset=True, exclude={"answers"})))
+        await db.execute(
+            update(Survey).where(Survey.guid == guid).values(**model.dict(exclude_unset=True, exclude={"answers"}))
+        )
         await db.commit()
         await db.refresh(survey)
 
@@ -67,11 +69,13 @@ class SurveyRepository:
         if model is None or not model.dict(exclude_unset=True):
             raise HTTPException(400, "Должно быть задано хотя бы одно новое поле модели")
 
-        await db.execute(update(Survey).where(Survey.guid == guid).values(**model.dict(exclude_unset=True, exclude={"answers"})))
-        
+        await db.execute(
+            update(Survey).where(Survey.guid == guid).values(**model.dict(exclude_unset=True, exclude={"answers"}))
+        )
+
         for ans in model.answers:
             await AnswerRepository.patch(db, ans.guid, ans)
-            
+
         await db.commit()
         await db.refresh(survey)
 
