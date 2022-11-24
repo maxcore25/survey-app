@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import AppButton from '../../buttons/AppButton';
 import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
+import API from '../../../../api';
+
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -35,7 +37,16 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { state } = useLocation();
+  const [user, setUser] = useState({});
 
+  useEffect(() => {
+    const submitSurvey = async () => {
+      const result = await API.get(`/user/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+      setUser(result.data);
+    };
+    submitSurvey();
+  }, [])
+  
   const handleLogout = () => {
     logout().then(() => {
       navigate(state?.path || '/');
@@ -84,15 +95,15 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
       <Stack sx={{ gap: '10px' }}>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Имя</Point>
-          <Data>Иван Иванович Иванов</Data>
+          <Data>{user.fist_name} {user.last_name} {user.middle_name}</Data>
         </Stack>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Почта</Point>
-          <Data>ivanov.ivan@mail.ru</Data>
+          <Data>{user.email}</Data>
         </Stack>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Баллы</Point>
-          <Data>100</Data>
+          <Data>{user.points}</Data>
         </Stack>
       </Stack>
       <AppButton onClick={handleLogout} sx={{ p: 1.5, marginTop: '30px' }}>

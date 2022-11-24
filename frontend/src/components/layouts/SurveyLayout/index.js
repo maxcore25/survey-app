@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Box, Stack } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import AppButton from '../../elements/buttons/AppButton';
@@ -65,6 +66,7 @@ const CustomRadio = styled(Radio)({
 });
 
 export default function SurveyLayout() {
+  const navigate = useNavigate();
   const [value, setValue] = React.useState('');
   const [survey, setSurvey] = useState();
   const [loading, setLoading] = useState(true);
@@ -84,6 +86,17 @@ export default function SurveyLayout() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    const submitSurvey = async () => {
+      const answerData = {
+        "answer_id": value,
+      }
+      const result = await API.post(`/survey/vote/${localStorage.getItem('surveyId')}`, answerData, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+      if (result.status === 201) {
+        navigate("/home");
+      }
+      
+    };
+    submitSurvey();
   };
 
   return (

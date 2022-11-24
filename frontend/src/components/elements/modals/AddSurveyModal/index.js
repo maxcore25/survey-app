@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { TextField, Typography } from '@mui/material';
 import AppButton from '../../buttons/AppButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import API from '../../../../api';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -18,7 +19,9 @@ export default function AddSurveyModal({ open, onClose }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [shortName, setShortName] = useState('');
-  const [answers, setAnswers] = useState([{ name: '' }]);
+  const [points, setPoints] = useState(0);
+  const [category, setCategory] = useState('');
+  const [answers, setAnswers] = useState([{ title: '' }]);
 
   const handleChangeName = e => {
     setName(e.target.value);
@@ -32,19 +35,44 @@ export default function AddSurveyModal({ open, onClose }) {
     setShortName(e.target.value);
   };
 
+  const handleChangePoints = e => {
+    setPoints(e.target.value);
+  };
+
+  const handleChangeCategory = e => {
+    setCategory(e.target.value);
+  };
+
+  const handleAddClick = e => {
+    e.preventDefault();
+    setAnswers([...answers, { title: '' }]);
+  };
+
+  const handleChangeAnswer = e => {
+    setAnswers(answers.map((answer, index) => (index === parseInt(e.target.id) ? { ...answer, title: e.target.value } : answer)));
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log({
-      name,
-      description,
-      shortName,
-      answers,
-    });
+    const createSurvey = async () => {
+      const surveyData = {
+        "title": name,
+        "description": description,
+        "question": shortName,
+        "points": points,
+        "category": category,
+        "answers": answers
+      }
+      await API.post(`/survey`, surveyData, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+    };
+    createSurvey();
 
     setName('');
     setDescription('');
     setShortName('');
-    setAnswers([{ name: '' }]);
+    setPoints(0);
+    setCategory('');
+    setAnswers([{ title: '' }]);
 
     onClose();
   };
@@ -81,7 +109,7 @@ export default function AddSurveyModal({ open, onClose }) {
           />
         </Stack>
         <Stack sx={{ gap: '10px' }}>
-          <Title>Краткое название</Title>
+          <Title>Вопрос</Title>
           <TextField
             variant='outlined'
             value={shortName}
@@ -94,15 +122,42 @@ export default function AddSurveyModal({ open, onClose }) {
           />
         </Stack>
         <Stack sx={{ gap: '10px' }}>
+          <Title>Количество баллов</Title>
+          <TextField
+            variant='outlined'
+            value={points}
+            onChange={handleChangePoints}
+            sx={{
+              '& input': {
+                fontFamily: 'var(--primary-font)',
+              },
+            }}
+          />
+        </Stack>
+        <Stack sx={{ gap: '10px' }}>
+          <Title>Категория</Title>
+          <TextField
+            variant='outlined'
+            value={category}
+            onChange={handleChangeCategory}
+            sx={{
+              '& input': {
+                fontFamily: 'var(--primary-font)',
+              },
+            }}
+          />
+        </Stack>
+        <Stack sx={{ gap: '10px' }}>
           <Title>Варианты ответов</Title>
           <Stack sx={{ gap: '20px' }}>
-            {answers.map(answer => (
-              <AnswerInput key={answer.name} value={answer.name} />
+            {answers.map((answer, index) => (
+              <AnswerInput key={index} id={index} value={answer.title} onChange={handleChangeAnswer} />
             ))}
           </Stack>
           <Stack direction='row' justifyContent='center'>
             <AppButton
               startIcon={<AddCircleOutlineIcon />}
+              onClick={handleAddClick}
               sx={{
                 mt: 2,
                 width: '120px',
