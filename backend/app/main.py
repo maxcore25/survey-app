@@ -5,10 +5,10 @@ from app.config import config
 from app.models.exceptions import add_exception_handlers, catch_unhandled_exceptions
 from app.routers.answer import router as answer_router
 from app.routers.auth import router as auth_router
+from app.routers.result import router as result_router
 from app.routers.survey import router as survey_router
 from app.routers.user import router as user_router
 from app.routers.vote import router as vote_router
-from app.routers.result import router as result_router
 
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},
