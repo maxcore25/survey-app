@@ -15,13 +15,13 @@ services:
       timeout: 5s
       retries: 5
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   ports:
-  #     - "80:80"
-  #   environment:
-  #     REACT_APP_API_URL: ${FRONTEND_API_URL}
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    environment:
+      REACT_APP_API_URL: ${FRONTEND_API_URL}
 
   backend:
     build:
