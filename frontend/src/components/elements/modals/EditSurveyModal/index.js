@@ -52,7 +52,7 @@ export default function EditSurveyModal({
   onClose,
   survey = testSurvey,
 }) {
-  const { selectedNews, setSelectedNews } = useContext(MainContext);
+  const { selectedSurvey, setSelectedSurvey } = useContext(MainContext);
 
   const [name, setName] = useState(survey.name);
   const [description, setDescription] = useState(survey.description);
