@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { useNavigate, useLocation } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/system';
 import MireaNinjaIcon from '../../../components/elements/icons/MireaNinjaIcon';
 import { Typography } from '@mui/material';
 import AppButton from '../../../components/elements/buttons/AppButton';
+import API from '../../../api';
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const { state } = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [middleName, setMiddleName] = useState('');
 
   const handleChangeEmail = e => {
     setEmail(e.target.value);
@@ -24,13 +25,34 @@ export default function SignUp() {
     setPassword(e.target.value);
   };
 
+  const handleChangeFirstName = e => {
+    setFirstName(e.target.value);
+  };
+
+  const handleChangeLastName = e => {
+    setLastName(e.target.value);
+  };
+
+  const handleChangeMiddleName = e => {
+    setMiddleName(e.target.value);
+  };
+
   const handleSubmit = event => {
-    console.log({ email, password });
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    login(data.get('email'), data.get('password')).then(() => {
-      navigate(state?.path || '/home');
-    });
+    const data = {
+      "email": email,
+      "password": password,
+      "first_name": firstName,
+      "last_name": lastName,
+      "middle_name": middleName,
+    }
+    const registerUser = async () => {
+      const result = await API.post(`/signup`, data, {headers: {Authorization: `Bearer ${localStorage.getItem('access_token')}`}});
+      if (result.status === 200) {
+        navigate("/");
+      }
+    };
+    registerUser();
   };
 
   return (
@@ -128,6 +150,57 @@ export default function SignUp() {
               label='Пароль'
               type='password'
               id='password'
+              autoComplete='current-password'
+              sx={{
+                '& .MuiInputBase-root': {
+                  borderRadius: '12px',
+                },
+              }}
+            />
+            <TextField
+              value={firstName}
+              onChange={handleChangeFirstName}
+              margin='normal'
+              required
+              fullWidth
+              name='first_name'
+              label='Имя'
+              type='text'
+              id='first_name'
+              autoComplete='current-password'
+              sx={{
+                '& .MuiInputBase-root': {
+                  borderRadius: '12px',
+                },
+              }}
+            />
+            <TextField
+              value={lastName}
+              onChange={handleChangeLastName}
+              margin='normal'
+              required
+              fullWidth
+              name='second_name'
+              label='Фамилия'
+              type='text'
+              id='second_name'
+              autoComplete='current-password'
+              sx={{
+                '& .MuiInputBase-root': {
+                  borderRadius: '12px',
+                },
+              }}
+            />
+            <TextField
+              value={middleName}
+              onChange={handleChangeMiddleName}
+              margin='normal'
+              required
+              fullWidth
+              name='middle_name'
+              label='Отчество'
+              type='text'
+              id='middle_name'
               autoComplete='current-password'
               sx={{
                 '& .MuiInputBase-root': {

@@ -10,6 +10,7 @@ import ProfileMenu from '../../../elements/menus/ProfileMenu';
 export default function Header({ logo, exit }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const isAdmin = localStorage.getItem('role') === 'admin';
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -47,15 +48,17 @@ export default function Header({ logo, exit }) {
                 Опросы
               </Button>
             </Link>
-            <Link to='/panel' style={{ height: 'fit-content' }}>
-              <Button
-                sx={{
-                  textTransform: 'none',
-                  color: 'var(--color-primary)',
-                }}>
-                Панель
-              </Button>
-            </Link>
+            {isAdmin && (
+              <Link to='/panel' style={{ height: 'fit-content' }}>
+                <Button
+                  sx={{
+                    textTransform: 'none',
+                    color: 'var(--color-primary)',
+                  }}>
+                  Панель
+                </Button>
+              </Link>
+            )}
           </Stack>
         </Stack>
         <IconButton
