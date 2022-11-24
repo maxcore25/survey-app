@@ -1,9 +1,10 @@
 import { Stack } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BaseModal from '../BaseModal';
 import { styled } from '@mui/material/styles';
 import { Box, TextField, Typography } from '@mui/material';
 import AppButton from '../../buttons/AppButton';
+import { MainContext } from '../../../../context/MainContextProvider';
 import API from '../../../../api';
 
 const testSurvey = {
@@ -52,7 +53,7 @@ export default function EditSurveyModal({
   onClose,
   survey = testSurvey,
 }) {
-
+  const { selectedSurvey, setSelectedSurvey } = useContext(MainContext);
   const [name, setName] = useState(survey.name);
   const [description, setDescription] = useState(survey.description);
   const [shortName, setShortName] = useState(survey.shortName);
