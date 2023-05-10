@@ -6,5 +6,6 @@ describe('TabButton', () => {
     render(<TabButton>hello</TabButton>);
     const button = screen.getByText(/hello/i);
     expect(button).toBeInTheDocument();
+    // screen.debug();
   });
 });

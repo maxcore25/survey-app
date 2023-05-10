@@ -9,7 +9,6 @@ describe('AppButton', () => {
     render(<AppButton>hello</AppButton>);
     const button = screen.getByText(/hello/i);
     expect(button).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('renders App', () => {
@@ -22,7 +21,6 @@ describe('AppButton', () => {
     );
     const button = screen.queryByText(/Войти/i);
     expect(button).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('renders App 2', () => {
@@ -35,7 +33,6 @@ describe('AppButton', () => {
     );
     const button = screen.getByText(/Войти/i);
     expect(button).toBeInTheDocument();
-    // screen.debug();
   });
 
   it('renders App 3', () => {
@@ -50,6 +47,5 @@ describe('AppButton', () => {
     const input = screen.queryByRole('textbox');
     fireEvent.click(button);
     expect(input).toBeInTheDocument();
-    // screen.debug();
   });
 });
