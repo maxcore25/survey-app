@@ -51,4 +51,28 @@ describe('App', () => {
     const input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();
   });
+
+  it('renders App 5', () => {
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </MemoryRouter>
+    );
+    const mainEl = document.querySelector('main');
+    expect(mainEl).toBeInTheDocument();
+  });
+
+  it('renders App 6', () => {
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </MemoryRouter>
+    );
+    const inputs = document.querySelectorAll('input');
+    expect(inputs.length).toBe(2);
+  });
 });
