@@ -2,8 +2,8 @@
 FROM node:latest as build-stage
 
 WORKDIR /app
-COPY ./proxy/nginx.conf /nginx.conf
-COPY . /app
+COPY ./frontend/proxy/nginx.conf /nginx.conf
+COPY ./frontend /app
 RUN yarn install && yarn build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx

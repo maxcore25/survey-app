@@ -1,0 +1,72 @@
+name: Build and Deploy
+
+on:
+ push:
+   branches:
+     - main
+
+env:
+ JOB_STARTED_AT: ${{ github.event.created_at }}
+ CR_REGISTRY: maxcore25
+ CR_IMAGE_BACKEND: survey-app-backend
+ CR_IMAGE_FRONTEND: survey-app-frontend
+
+jobs:
+ build-backend:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+     - name: Login to Registry
+       run: echo ${{ secrets.CR_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+     - name: Build and Push Image Backend
+       run: |
+         docker build \
+         --pull \
+         --cache-from ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:latest \
+         --label "org.image.title=${{ github.repository }}" \
+         --label "org.image.url=${{ github.repositoryUrl }}" \
+         --label "org.image.created=${{ env.JOB_STARTED_AT }}" \
+         --label "org.image.revision=${{ github.ref_name }}" \
+         --label "org.image.version=${{ github.sha }}" \
+         --tag ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:${{ github.sha }} \
+         --file ./backend/Dockerfile \
+         .
+         docker push ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:${{ github.sha }}
+         docker tag ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:${{ github.sha }} \
+           ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:latest
+         docker push ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_BACKEND }}:latest
+ build-frontend:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+     - name: Login to Registry
+       run: echo ${{ secrets.CR_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+     - name: Build and Push Image Frontend
+       run: |
+         docker build \
+         --pull \
+         --cache-from ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:latest \
+         --label "org.image.title=${{ github.repository }}" \
+         --label "org.image.url=${{ github.repositoryUrl }}" \
+         --label "org.image.created=${{ env.JOB_STARTED_AT }}" \
+         --label "org.image.revision=${{ github.ref_name }}" \
+         --label "org.image.version=${{ github.sha }}" \
+         --tag ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:${{ github.sha }} \
+         --file ./frontend/Dockerfile \
+         .
+         docker push ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:${{ github.sha }}
+         docker tag ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:${{ github.sha }} \
+           ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:latest
+         docker push ghcr.io/${{ env.CR_REGISTRY }}/${{ env.CR_IMAGE_FRONTEND }}:latest
+ deploy:
+    runs-on: self-hosted
+    needs: [build-backend, build-frontend]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy App
+        run: |
+          cd ${{ secrets.PRODUCTION_FOLDER }}
+          docker compose pull && docker compose up -d
